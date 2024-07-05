@@ -6,7 +6,7 @@ async function userSignUpController(req,res){
     try{
         const { email, password, name} = req.body
 
-        console.log("req>body",req.body)
+        console.log("req.body",req.body)
 
         const user = await userModel.findOne({email})
 
