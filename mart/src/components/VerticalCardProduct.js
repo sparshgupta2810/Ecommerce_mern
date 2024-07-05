@@ -3,7 +3,7 @@ import fetchCategoryWiseProduct from '../helpers/fetchCategoryWiseProduct'
 import displayINRCurrency from '../helpers/displayCurrency'
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa6'
 import { Link } from 'react-router-dom'
-// import addToCart from '../helpers/addToCart'
+import addToCart from '../helpers/addToCart'
 import Context from '../context'
 
 const VerticalCardProduct = ({category, heading}) => {
@@ -16,10 +16,10 @@ const VerticalCardProduct = ({category, heading}) => {
 
     const { fetchUserAddToCart } = useContext(Context)
 
-    // const handleAddToCart = async(e,id)=>{
-    //    await addToCart(e,id)
-    //    fetchUserAddToCart()
-    // }
+    const handleAddToCart = async(e,id)=>{
+       await addToCart(e,id)
+       fetchUserAddToCart()
+    }
 
     const fetchData = async() =>{
         setLoading(true)
@@ -34,72 +34,98 @@ const VerticalCardProduct = ({category, heading}) => {
         fetchData()
     },[])
 
-    const scrollRight = () =>{
-        scrollElement.current.scrollLeft += 300
-    }
-    const scrollLeft = () =>{
-        scrollElement.current.scrollLeft -= 300
-    }
-
 
   return (
-    <div className='container mx-auto px-4 my-6 relative'>
+    <div className="bg-white py-6 sm:py-8 lg:py-12">
+      <div className="mx-auto max-w-screen-2xl px-4 md:px-8">
+        <div className="mb-10 md:mb-16">
+          <h2 className="mb-4 text-center text-2xl font-bold text-gray-800 md:mb-6 lg:text-3xl">
+            {heading}
+          </h2>
+        </div>
 
-            <h2 className='text-2xl font-semibold py-4'>{heading}</h2>
+        <div className="grid gap-4 sm:grid-cols-2 md:gap-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-8">
+          {loading
+            ? loadingList.map((_, index) => (
+                <div
+                  key={index}
+                  className="flex flex-col overflow-hidden rounded-lg border bg-white"
+                >
+                  <div className="group relative block h-48 bg-gray-100 animate-pulse"></div>
+                  <div className="flex flex-1 flex-col p-4 sm:p-6">
+                    <h2 className="mb-2 text-lg font-semibold text-gray-800 bg-slate-200 animate-pulse h-6 mb-2"></h2>
+                    <p className="mb-8 text-gray-500 bg-slate-200 animate-pulse h-4 mb-2"></p>
+                    <div className="mt-auto flex items-end justify-between">
+                      <div className="bg-slate-200 animate-pulse h-10 w-10 rounded-full"></div>
+                      <span className="rounded border px-2 py-1 text-sm bg-slate-200 animate-pulse h-4 w-20"></span>
+                    </div>
+                  </div>
+                </div>
+              ))
+            : data.map((product) => (
+                <div
+                  key={product?._id}
+                  className="flex flex-col overflow-hidden rounded-lg border bg-white"
+                >
+                  <Link
+                    to={"product/" + product?._id}
+                    className="flex flex-col items-center justify-center group relative block h-full bg-gray-100 md:h-64"
+                  >
+                    <img
+                      src={product.productImage[0]}
+                      alt={product.productName}
+                      className="h-full object-cover object-center"
+                    />
+                  </Link>
 
-                
-           <div className='flex items-center gap-4 md:gap-6 overflow-x-scroll scrollbar-none transition-all' ref={scrollElement}>
+                  <div className="flex flex-1 flex-col p-4 sm:p-6">
+                    <h2 className="mb-2 text-lg font-semibold text-gray-800">
+                      <Link
+                        to={"product/" + product?._id}
+                        className="transition duration-100 hover:text-indigo-500 active:text-indigo-600"
+                      >
+                        {product?.productName}
+                      </Link>
+                    </h2>
 
-            <button  className='bg-white shadow-md rounded-full p-1 absolute left-0 text-lg hidden md:block' onClick={scrollLeft}><FaAngleLeft/></button>
-            <button  className='bg-white shadow-md rounded-full p-1 absolute right-0 text-lg hidden md:block' onClick={scrollRight}><FaAngleRight/></button> 
+                    <p className="mb-8 text-gray-500">{product?.category}</p>
 
-           {
+                    <div className="mt-auto flex items-end justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className="h-10 w-10 shrink-0 overflow-hidden rounded-full bg-gray-100">
+                          <img
+                            src={product.productImage[0]}
+                            loading="lazy"
+                            alt={product.productName}
+                            className="h-full w-full object-cover object-center"
+                          />
+                        </div>
 
-                loading ? (
-                    loadingList.map((product,index)=>{
-                        return(
-                            <div className='w-full min-w-[280px]  md:min-w-[320px] max-w-[280px] md:max-w-[320px]  bg-white rounded-sm shadow '>
-                                <div className='bg-slate-200 h-48 p-4 min-w-[280px] md:min-w-[145px] flex justify-center items-center animate-pulse'>
-                                </div>
-                                <div className='p-4 grid gap-3'>
-                                    <h2 className='font-medium text-base md:text-lg text-ellipsis line-clamp-1 text-black p-1 py-2 animate-pulse rounded-full bg-slate-200'></h2>
-                                    <p className='capitalize text-slate-500 p-1 animate-pulse rounded-full bg-slate-200  py-2'></p>
-                                    <div className='flex gap-3'>
-                                        <p className='text-red-600 font-medium p-1 animate-pulse rounded-full bg-slate-200 w-full  py-2'></p>
-                                        <p className='text-slate-500 line-through p-1 animate-pulse rounded-full bg-slate-200 w-full  py-2'></p>
-                                    </div>
-                                    <button className='text-sm  text-white px-3  rounded-full bg-slate-200  py-2 animate-pulse'></button>
-                                </div>
-                            </div>
-                        )
-                    })
-                ) : (
-                    data.map((product,index)=>{
-                        return(
-                            <Link to={"product/"+product?._id} className='w-full min-w-[280px]  md:min-w-[320px] max-w-[280px] md:max-w-[320px]  bg-white rounded-sm shadow '>
-                                <div className='bg-slate-200 h-48 p-4 min-w-[280px] md:min-w-[145px] flex justify-center items-center'>
-                                    <img src={product.productImage[0]} className='object-scale-down h-full hover:scale-110 transition-all mix-blend-multiply'/>
-                                </div>
-                                <div className='p-4 grid gap-3'>
-                                    <h2 className='font-medium text-base md:text-lg text-ellipsis line-clamp-1 text-black'>{product?.productName}</h2>
-                                    <p className='capitalize text-slate-500'>{product?.category}</p>
-                                    <div className='flex gap-3'>
-                                        <p className='text-red-600 font-medium'>{ displayINRCurrency(product?.sellingPrice) }</p>
-                                        <p className='text-slate-500 line-through'>{ displayINRCurrency(product?.price)  }</p>
-                                    </div>
-                                    <button className='text-sm bg-red-600 hover:bg-red-700 text-white px-3 py-0.5 rounded-full' >Add to Cart</button>
-                                </div>
-                            </Link>
-                        )
-                    })
-                )
-                
-            }
-           </div>
-            
+                        <div>
+                          <span className="block text-indigo-500">
+                            {displayINRCurrency(product?.sellingPrice)}
+                          </span>
+                          <span className="block text-sm text-gray-400 line-through">
+                            {displayINRCurrency(product?.price)}
+                          </span>
+                        </div>
+                      </div>
 
+                      <button
+                        type="button"
+                        className="text-sm bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-full transition-colors duration-300"
+                        onClick={(e) => handleAddToCart(e, product?._id)}
+                      >
+                        Add to Cart
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+        </div>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default VerticalCardProduct
+export default VerticalCardProduct;

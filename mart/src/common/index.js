@@ -1,54 +1,83 @@
+const backendDomin = "http://localhost:8080"
+
 const SummaryApi = {
-    signIn: {
-        url: 'http://localhost:8080/api/signin',
-        method: 'POST'
+    signUP : {
+        url : `${backendDomin}/api/signup`,
+        method : "post"
     },
-    signUp: {
-        url: 'http://localhost:8080/api/SignUp',
-        method: 'POST'
+    signIn : {
+        url : `${backendDomin}/api/signin`,
+        method : "post"
     },
-    current_user: {
-        url: 'http://localhost:8080/api/user-details',
-        method: 'GET'
+    current_user : {
+        url : `${backendDomin}/api/user-details`,
+        method : "get"
     },
-    logout_user: {
-        url: 'http://localhost:8080/api/userLogout',
-        method: 'GET'
+    logout_user : {
+        url : `${backendDomin}/api/userLogout`,
+        method : 'get'
     },
-    allUser: {
-        url: 'http://localhost:8080/api/all-user',
-        method: 'GET'
+    allUser : {
+        url : `${backendDomin}/api/all-user`,
+        method : 'get'
     },
-    updateUser: {
-        url: 'http://localhost:8080/api/update-user',
-        method: 'POST'
+    updateUser : {
+        url : `${backendDomin}/api/update-user`,
+        method : "post"
     },
     uploadProduct : {
-        url : 'http://localhost:8080/api/upload-product',
+        url : `${backendDomin}/api/upload-product`,
         method : 'post'
     },
     allProduct : {
-        url : 'http://localhost:8080/api/get-product',
+        url : `${backendDomin}/api/get-product`,
         method : 'get'
     },
     updateProduct : {
-        url : 'http://localhost:8080/api/update-product',
+        url : `${backendDomin}/api/update-product`,
         method  : 'post'
     },
     categoryProduct : {
-        url : 'http://localhost:8080/api/get-categoryProduct',
+        url : `${backendDomin}/api/get-categoryProduct`,
         method : 'get'
     },
     categoryWiseProduct : {
-        url : 'http://localhost:8080/api/category-product',
+        url : `${backendDomin}/api/category-product`,
         method : 'post'
     },
     productDetails : {
-        url : 'http://localhost:8080/api/product-details',
+        url : `${backendDomin}/api/product-details`,
         method : 'post'
     },
-};
+    addToCartProduct : {
+        url : `${backendDomin}/api/addtocart`,
+        method : 'post'
+    },
+    addToCartProductCount : {
+        url : `${backendDomin}/api/countAddToCartProduct`,
+        method : 'get'
+    },
+    addToCartProductView : {
+        url : `${backendDomin}/api/view-card-product`,
+        method : 'get'
+    },
+    updateCartProduct : {
+        url : `${backendDomin}/api/update-cart-product`,
+        method : 'post'
+    },
+    deleteCartProduct : {
+        url : `${backendDomin}/api/delete-cart-product`,
+        method : 'post'
+    },
+    searchProduct : {
+        url : `${backendDomin}/api/search`,
+        method : 'get'
+    },
+    filterProduct : {
+        url : `${backendDomin}/api/filter-product`,
+        method : 'post'
+    }
+}
 
-export default SummaryApi;
 
-
+export default SummaryApi
